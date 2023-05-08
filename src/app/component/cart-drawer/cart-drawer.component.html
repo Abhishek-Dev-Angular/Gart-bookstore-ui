@@ -1,0 +1,35 @@
+<mat-nav-list class="my-nav-list">
+    <div *ngFor="let book of cartItems">
+        <a mat-list-item>
+            <div class="container row my-cont">
+                <div>
+                    <img class="my-img-drawer" [src]="book.image">
+                </div>
+                &nbsp;
+                <div>
+                    <strong>{{book.title}}</strong>&nbsp;&nbsp;
+                    <span matLine>by {{book.author}}</span>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button (click)="remove(book._id)" [disabled]="book.count < 2" color="primary" mat-icon-button
+                    class="example-icon favorite-icon fav" aria-label="Example icon-button with heart icon">
+                    <mat-icon>remove</mat-icon>
+                </button>
+                <div class="count">{{book.count}}</div>
+                <button (click)="add(book._id)" [disabled]="book.count > 4" color="primary" mat-icon-button
+                    class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+                    <mat-icon>add</mat-icon>
+                </button>
+
+                <button (click)="delete(book._id)" mat-mini-fab color="primary" class="fav"
+                    aria-label="Example icon button with a menu icon">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </a>
+    </div>
+    <div *ngIf="cartItems.length > 0; else message">
+        <button (click)="checkout($event)" class="checkout-btn" color="primary" mat-stroked-button>
+            <mat-icon>shopping_cart_checkout</mat-icon>Checkout</button>
+    </div>
+    <ng-template #message>There are no items in the cart.</ng-template>
+</mat-nav-list>

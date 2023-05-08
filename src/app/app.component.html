@@ -1,0 +1,7 @@
+<app-app-sidebar></app-app-sidebar>
+<div *ngIf="isLogin; else logout">
+
+</div>
+<ng-template #logout>
+  <router-outlet></router-outlet>
+</ng-template>

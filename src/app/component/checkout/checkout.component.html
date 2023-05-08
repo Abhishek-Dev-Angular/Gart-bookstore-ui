@@ -1,0 +1,151 @@
+<div class="my-checkout" *ngIf="cartItems.length > 0">
+    <h1>Checkout</h1>
+    <table mat-table [dataSource]="cartItems" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+
+        <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element"><img [src]="element.image"> </td>
+            <td mat-footer-cell *matFooterCellDef> Total </td>
+          </ng-container>
+
+        
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Book Name </th>
+          <td mat-cell *matCellDef="let element">{{element.title}} </td>
+          <td mat-footer-cell *matFooterCellDef>  </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="author">
+          <th mat-header-cell *matHeaderCellDef> Author Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.author}} </td>
+          <td mat-footer-cell *matFooterCellDef>  </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="count">
+          <th mat-header-cell *matHeaderCellDef> Quantity </th>
+          <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+          <td mat-footer-cell *matFooterCellDef>  </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Unit Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+            <td mat-footer-cell *matFooterCellDef>  </td>
+          </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef> Total Price </th>
+          <td mat-cell *matCellDef="let element">{{element.price * element.count | currency}} </td>
+          <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency}} </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+      </table>
+</div>
+<br>
+<br>
+<div class="my-checkout">
+  <h1>Enter Your Details</h1>
+  <mat-stepper orientation="vertical" [linear]="isLinear">
+    <mat-step [stepControl]="firstFormGroup">
+      <form class="flex-container" [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Enter Your Card Details</ng-template>
+        <p class="danger">Note: We do not store your card details.</p>
+        <mat-form-field class="width-400" appearance="fill">
+          <mat-label>Select your card type</mat-label>
+          <mat-select formControlName="CardType">
+            <mat-option *ngFor="let card of cardTypes" [value]="card">
+              {{card}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="width-400" appearance="fill">
+          <mat-label>Enter your card number</mat-label>
+          <input matInput placeholder="45XX XXXX XXXX XX81" formControlName="CardNumber" required>
+        </mat-form-field>
+        <div class="error-text" *ngIf="firstFormGroup.controls['CardNumber'].dirty && firstFormGroup.controls['CardNumber'].touched && firstFormGroup.invalid">
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardNumber'].hasError('minlength')">
+            Card Number must contain 16 digits.
+          </p>
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardNumber'].hasError('maxlength')">
+            Card Number must contain 16 digits.
+          </p>
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardNumber'].hasError('required')">
+            Card Number is required.
+          </p>
+        </div>
+        <div class="width-400" style="display:flex">
+          <mat-form-field class="width-190" appearance="fill">
+            <mat-label>Card CVV</mat-label>
+            <input matInput placeholder="CVV" type="number" formControlName="CardCVV" required>
+          </mat-form-field>
+          &nbsp;&nbsp;
+          <mat-form-field class="width-190" appearance="fill">
+            <mat-label>Expiry Month</mat-label>
+            <input matInput placeholder="MM" type="number" formControlName="CardExpMonth" required>
+          </mat-form-field>
+          
+          &nbsp;&nbsp;
+          <mat-form-field class="width-190" appearance="fill">
+            <mat-label>Expiry Year</mat-label>
+            <input matInput placeholder="YY" type="number" formControlName="CardExpYear" required>
+          </mat-form-field>
+        </div>
+        <div class="error-text" *ngIf="firstFormGroup.controls['CardExpMonth'].dirty && firstFormGroup.controls['CardExpMonth'].touched && firstFormGroup.invalid">
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardExpMonth'].hasError('min')">
+            Month is not valid.
+          </p>
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardExpMonth'].hasError('max')">
+            Month is not valid
+          </p>
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardExpMonth'].hasError('required')">
+            Month is required.
+          </p>
+        </div>
+        <div class="error-text" *ngIf="firstFormGroup.controls['CardCVV'].dirty && firstFormGroup.controls['CardCVV'].touched && firstFormGroup.invalid">
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardCVV'].hasError('min')">
+            CVV is not valid.
+          </p>
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardCVV'].hasError('max')">
+            CVV is not valid
+          </p>
+          <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardCVV'].hasError('required')">
+            CVV is required.
+          </p>
+        </div>
+          <div class="error-text" *ngIf="firstFormGroup.controls['CardExpYear'].dirty && firstFormGroup.controls['CardExpYear'].touched && firstFormGroup.invalid">
+            <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardExpYear'].hasError('min')">
+              Year is not valid.
+            </p>
+            <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardExpYear'].hasError('max')">
+              Year is not valid
+            </p>
+            <p class="alert alert-danger" *ngIf="firstFormGroup.controls['CardExpYear'].hasError('required')">
+              Year is required.
+            </p>
+          </div>
+        <div>
+          <button color="primary" mat-stroked-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>Confirm below to place your order.</p>
+      <div>
+        <button class="width-100" color="primary" mat-stroked-button matStepperPrevious>Back</button>&nbsp;&nbsp;
+        <button class="width-100" color="primary" mat-stroked-button (click)="createOrder()">Confirm</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

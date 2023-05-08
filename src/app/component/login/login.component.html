@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 col-sm-12 col-xs-12 my-container">
+      <form novalidate [formGroup]="userForm">
+        <h3 class="fs-22 fw-600 px-2 py-2 px-lg-3">
+          Login For Gartner BookStore
+        </h3>
+        <div class="myform px-lg-3 w-lg-90">
+          <mat-form-field appearance="fill">
+            <mat-label>E-mail Address</mat-label>
+            <input class="form-control" formControlName="userEmail" type="text" placeholder="Enter e-mail" matInput>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input class="form-control" formControlName="password" type="password" placeholder="Password" matInput>
+          </mat-form-field>
+          <div class="form-button mt-3">
+            <button id="submit" type="submit" (keyup.enter)="userSubmit()" (click)="userSubmit()" color="primary"
+              mat-stroked-button>Login</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

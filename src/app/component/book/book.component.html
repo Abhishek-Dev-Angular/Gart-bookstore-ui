@@ -1,0 +1,42 @@
+<h1>Material Book Library</h1>
+<div class="my-book">
+  <form [formGroup]="firstFormGroup" class="flex-container">
+    <mat-form-field class="width-400" appearance="fill">
+      <mat-label>Filter Category</mat-label>
+      <mat-select formControlName="searchBy">
+        <mat-option *ngFor="let filter of filterTypes" [value]="filter.value">
+          {{filter.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="width-600" appearance="fill">
+      <mat-label>Enter the criteria</mat-label>
+      <input matInput placeholder="e.g., 4 or 100 or Gatsby or Gustave" formControlName="searchText" required>
+    </mat-form-field>
+    <button color="primary" mat-stroked-button [disabled]="firstFormGroup.invalid" (click)="getAllBooks()">Search Books
+      <mat-icon>search</mat-icon></button>
+      <button color="primary" mat-stroked-button [disabled]="firstFormGroup.invalid" (click)="reset()">Reset Filter
+        <mat-icon>restart_alt</mat-icon></button>
+    </form>
+    
+</div>
+<div class="my-book">
+  <mat-card *ngFor="let book of bookList" class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{book.title}}</mat-card-title>
+      <mat-card-subtitle>by {{book.author}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="book.image" [alt]="book.title" class="my-img">
+    <mat-card-content class="my-content">
+      <button color="primary" mat-stroked-button (click)="addToCart(book)">Add To Cart
+        <mat-icon>shopping_cart</mat-icon></button>
+      <div class="my-price">
+        <div class="my-price"><strong>$ {{book.price}}</strong></div>
+        <div style="display: flex;">
+          <mat-icon>star_rate</mat-icon><span style="margin-top: 4px;">&nbsp;{{book.rating}}</span>
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

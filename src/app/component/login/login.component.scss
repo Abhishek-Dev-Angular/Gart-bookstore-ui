@@ -1,0 +1,39 @@
+// mat-form-field{
+//     width: 23vw !important;
+//  }
+form {
+    width: 100%;
+}
+
+.myform {
+    display: flex;
+    flex-direction: column;
+}
+
+.my-container {
+    margin: auto;
+    width: 30%;
+    border: 2px solid #3f51b5;
+    padding: 20px;
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .my-container {
+        margin: auto;
+        width: 90%;
+        border: 2px solid #3f51b5;
+        padding: 20px;
+        display: flex;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .my-container {
+        margin: auto;
+        width: 70%;
+        border: 2px solid #3f51b5;
+        padding: 20px;
+        display: flex;
+    }
+}
